@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
-    <head>
+
+<head>
     <title>Post Details</title>
-    </head>
-    <?php include_once 'scripts.php'; ?>
+</head>
+<?php include_once 'scripts.php'; ?>
+
 <body>
-<?php include_once 'header.php'; ?>
-<h1>Post Details</h1>
-<?php
+    <?php include_once 'header.php'; ?>
+    <h1>Post Details</h1>
+    <?php
 $success = True;
 $config = include('config.php');
 $db_conn = OCILogon($config["db_username"], $config["db_password"], "dbhost.ugrad.cs.ubc.ca:1522/ug"); // Change this!
@@ -166,41 +168,42 @@ if ($db_conn) {
 }
 ?>
 
-<!-- For adding new comments -->
-<div class="comment-box">
-    <textarea id="comment-contents" type="text" rows="5"></textarea>
-    <input type="button" value="Add Comment" onclick="addComment();"></p>
-</div>
+    <!-- For adding new comments -->
+    <div class="comment-box">
+        <textarea id="comment-contents" type="text" rows="5"></textarea>
+        <input type="button" value="Add Comment" onclick="addComment();"></p>
+    </div>
 
-<script>
-function addLike() {
-    $.ajax({
-        type: "POST",
-        url: "post.php",
-        data: { 
-            type: 'add-like', 
-            postid: <?php echo $_GET["id"]; ?> 
-        }, 
-        success: function(data){
-            location.reload();
+    <script>
+        function addLike() {
+            $.ajax({
+                type: "POST",
+                url: "post.php",
+                data: {
+                    type: 'add-like',
+                    postid: <?php echo $_GET["id"]; ?>
+                },
+                success: function(data) {
+                    location.reload();
+                }
+            });
         }
-    });
-}
 
-function addComment() {
-    $.ajax({
-        type: "POST",
-        url: "post.php",
-        data: { 
-            type: 'add-comment', 
-            postid: <?php echo $_GET["id"]; ?>,
-            comment: document.getElementById("comment-contents").value
-        }, 
-        success: function(data){
-            location.reload();
+        function addComment() {
+            $.ajax({
+                type: "POST",
+                url: "post.php",
+                data: {
+                    type: 'add-comment',
+                    postid: <?php echo $_GET["id"]; ?>,
+                    comment: document.getElementById("comment-contents").value
+                },
+                success: function(data) {
+                    location.reload();
+                }
+            });
         }
-    });
-}
-</script>
+    </script>
 </body>
+
 </html>

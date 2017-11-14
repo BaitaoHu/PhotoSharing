@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
-    <head>
+
+<head>
     <title>Feed</title>
     <?php include_once 'scripts.php'; ?>
-    </head>
+</head>
+
 <body>
-<?php include_once 'header.php'; ?>
-<h1>Feed</h1>
-<?php
+    <?php include_once 'header.php'; ?>
+    <h1>Feed</h1>
+    <?php
 $success = True;
 $config = include('config.php');
 $db_conn = OCILogon($config["db_username"], $config["db_password"], "dbhost.ugrad.cs.ubc.ca:1522/ug"); // Change this!
@@ -72,4 +74,5 @@ if ($db_conn) {
 }
 ?>
 </body>
+
 </html>
