@@ -1,4 +1,3 @@
-/** Uncomment to reset database
 DROP TABLE Photo;
 DROP TABLE TextPost;
 DROP TABLE Response;
@@ -7,7 +6,6 @@ DROP TABLE Album;
 DROP TABLE ProUser;
 DROP TABLE NormalUser;
 COMMIT;
-*/
 
 CREATE TABLE NormalUser 
 (username varchar(20), 
@@ -136,9 +134,6 @@ values(342633,TO_DATE('2017-7-2 18:25:01', 'YYYY-MM-DD HH24:MI:SS'),'Alvin',5);
 
 Insert into Post
 values(857465,TO_DATE('2016-4-21 15:05:33', 'YYYY-MM-DD HH24:MI:SS'),'Michael',2);
-
-Insert into Post
-values(423433,TO_DATE('2017-3-2 12:35:55', 'YYYY-MM-DD HH24:MI:SS'),'Alvin',3);
 
 Insert into Post
 values(5786878,TO_DATE('2017-8-31 12:35:55', 'YYYY-MM-DD HH24:MI:SS'),'Alvin',1);
