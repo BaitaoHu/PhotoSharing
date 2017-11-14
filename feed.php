@@ -10,32 +10,26 @@
             text-align: center;
             font-family: 'Barlow', sans-serif;
         }
-
         img {
             display: block;
             margin: auto;
             box-shadow: 2px 2px 2px 0px #7d7d7d96;
         }
-
         .post {
             border: 1px solid lightgray;
             padding: 10px 30px;
             margin: 10px;
         }
-
         .post-info {
             color: #4e4e4e;
         }
-
         .post-info > span {
             margin-right: 1em;
         }
-
         .post-info .fa {
             margin-right: 0.4em;
             color: black;
         }
-
         .post-info .fa-heart {
             color: red;
         }
@@ -49,7 +43,6 @@
 $success = True;
 $config = include('config.php');
 $db_conn = OCILogon($config["db_username"], $config["db_password"], "dbhost.ugrad.cs.ubc.ca:1522/ug"); // Change this!
-
 /**
  * Executes a plain SQL commands.
  * Adapted from the CPSC304 PHP tutorial.
@@ -57,14 +50,12 @@ $db_conn = OCILogon($config["db_username"], $config["db_password"], "dbhost.ugra
 function executePlainSQL($cmdstr) { 
 	global $db_conn, $success;
 	$statement = OCIParse($db_conn, $cmdstr);
-
 	if (!$statement) {
 		echo "<br>Cannot parse the following command: " . $cmdstr . "<br>";
 		$e = OCI_Error($db_conn);
 		echo htmlentities($e['message']);
 		$success = False;
 	}
-
 	$r = OCIExecute($statement, OCI_DEFAULT);
 	if (!$r) {
 		echo "<br>Cannot execute the following command: " . $cmdstr . "<br>";
@@ -72,10 +63,8 @@ function executePlainSQL($cmdstr) {
 		echo htmlentities($e['message']);
 		$success = False;
     }
-
 	return $statement;
 }
-
 if ($db_conn) {
     // Fetches all posts by all users
     $result = executePlainSQL("SELECT Post.*, P.URL, P.description,
@@ -84,16 +73,19 @@ if ($db_conn) {
     LEFT JOIN Photo P ON  P.postId = Post.postId 
     LEFT JOIN TextPost T ON T.postId = Post.postId
     ORDER BY Post.createdAt desc");
-
 	while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
         echo "<div class='post'>";
         if (array_key_exists("URL", $row)) {
             // Photo Post
+            echo "<a href='post.php?id=" . $row["POSTID"] . "'>";
             echo "<img src='" . $row["URL"] . "' width=600 height=600>";
+            echo "</a>";
             echo "<p>" . $row["DESCRIPTION"] . "</p>";       
         } else {
             // Text Post
-            echo "<p>" . $row["CONTENTS"] . "</p>";            
+            echo "<a href='post.php?id=" . $row["POSTID"] . "'>";
+            echo "<p>" . $row["CONTENTS"] . "</p>";
+            echo "</a>";            
         }
 
         echo "<div class='post-info'>";
@@ -103,6 +95,7 @@ if ($db_conn) {
         echo "</div></div>";
     }
 
+	//Commit to save changes...
 	OCILogoff($db_conn);
 } else {
 	echo "cannot connect";
