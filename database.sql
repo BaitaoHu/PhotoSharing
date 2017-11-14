@@ -1,6 +1,6 @@
 /** Uncomment to reset database
 DROP TABLE Photo;
-DROP TABLE Text;
+DROP TABLE TextPost;
 DROP TABLE Response;
 DROP TABLE Post;
 DROP TABLE Album;
@@ -8,6 +8,7 @@ DROP TABLE ProUser;
 DROP TABLE NormalUser;
 COMMIT;
 */
+
 CREATE TABLE NormalUser 
 (username varchar(20), 
      pass varchar(20) NOT NULL,             -- Passwords 20 characters max
@@ -54,17 +55,17 @@ CREATE TABLE Photo
 
 
 
-CREATE TABLE Text 
+CREATE TABLE TextPost 
 (postId int, 
-    contents varchar(500) NOT NULL,          -- Text post 500 characters max
+    contents varchar(500) NOT NULL,          -- TextPost post 500 characters max
     PRIMARY KEY (postId),
     FOREIGN KEY (postId) REFERENCES Post(postId)  ON DELETE CASCADE);
 
 
 CREATE TABLE Response 
 (postId integer, 
-     content varchar(200) NOT NULL,          --"text" is conflict with command statement, so I changed it to content 
-     datePosted date,   -- Responses 200 characters max
+     content varchar(200) NOT NULL,
+     datePosted date,
      username varchar(20),
      PRIMARY KEY (postId, datePosted, username),
      FOREIGN KEY (postId) REFERENCES Post(postId) ON DELETE CASCADE,
@@ -164,45 +165,45 @@ Insert into Post
 values(345345,TO_DATE('2017-2-17 15:39:02', 'YYYY-MM-DD HH24:MI:SS'),'Dominic',1);
 
 Insert into Photo
-values(010203,'https://unsplash.com/photos/Ovn1hyBge38','Aurora',4912,7360,0001);
+values(010203,'https://source.unsplash.com/Ovn1hyBge38','Aurora',4912,7360,0001);
 
 Insert into Photo
-values(016443,'https://unsplash.com/photos/kFHz9Xh3PPU','Yosemite',3720,5580,0971);
+values(016443,'https://source.unsplash.com/kFHz9Xh3PPU','Yosemite',3720,5580,0971);
 
 Insert into Photo
-values(546453,'https://unsplash.com/photos/Sm08kLSX4fU','Car',4000,6000,5631);
+values(546453,'https://source.unsplash.com/Sm08kLSX4fU','Car',4000,6000,5631);
 
 Insert into Photo
-values(123123,'https://unsplash.com/photos/mTkKYzlAAMc','Penguin',2848,4288,4321);
+values(123123,'https://source.unsplash.com/mTkKYzlAAMc','Penguin',2848,4288,4321);
 
 Insert into Photo
-values(342633,'https://unsplash.com/photos/T5lmpSYxnSU','Man',2504,4067,0001);
+values(342633,'https://source.unsplash.com/T5lmpSYxnSU','Man',2504,4067,0001);
 
 Insert into Photo
-values(857465,'https://unsplash.com/photos/XAqaeyzj3NM','Brooklyn',4417,6626,1234);
+values(857465,'https://source.unsplash.com/XAqaeyzj3NM','Brooklyn',4417,6626,1234);
 
 Insert into Photo
-values(234323,'https://unsplash.com/photos/d1fDmShBtIk','Girl',3456,5184,5656);
+values(234323,'https://source.unsplash.com/d1fDmShBtIk','Girl',3456,5184,5656);
 
-Insert into Text
+Insert into TextPost
 values(5786878,'aaaaaaaaaaaaaaaaaaaaaaaaaaa');
 
-Insert into Text
+Insert into TextPost
 values(34585656,'sssssssssssssssssssssssssssss');
 
-Insert into Text
+Insert into TextPost
 values(5674645,'yyyyyyyyyyyyyyyyyyyyyyyyyyyy');
 
-Insert into Text
+Insert into TextPost
 values(87789,'rrrrrrrrrrrrggggggggggg');
 
-Insert into Text
+Insert into TextPost
 values(2345754,'sssssssssssssssssssssggggggg');
 
-Insert into Text
+Insert into TextPost
 values(978947,'hhhhhhhhhhhhhhyyyyyyyy');
 
-Insert into Text
+Insert into TextPost
 values(345345,'ccccccccccccccccqqqqqqqqqqqq');
 
 Insert into Response
