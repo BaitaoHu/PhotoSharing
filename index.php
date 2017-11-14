@@ -2,42 +2,10 @@
 <html>
     <head>
     <title>Feed</title>
+    <?php include_once 'scripts.php'; ?>
     </head>
-    <style>
-        html, body {
-            width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            font-family: 'Barlow', sans-serif;
-        }
-        img {
-            display: block;
-            margin: auto;
-            box-shadow: 2px 2px 2px 0px #7d7d7d96;
-        }
-        .post {
-            border: 1px solid lightgray;
-            padding: 10px 30px;
-            margin: 10px;
-        }
-        .post-info {
-            color: #4e4e4e;
-        }
-        .post-info > span {
-            margin-right: 1em;
-        }
-        .post-info .fa {
-            margin-right: 0.4em;
-            color: black;
-        }
-        .post-info .fa-heart {
-            color: red;
-        }
-    </style>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">
 <body>
-<p><strong>Make sure you add your Oracle login info! See the source of this file for details.</strong></p>
+<?php include_once 'header.php'; ?>
 <h1>Feed</h1>
 <?php
 $success = True;

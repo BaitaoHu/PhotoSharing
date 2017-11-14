@@ -3,79 +3,9 @@
     <head>
     <title>Post Details</title>
     </head>
-    <style>
-        html, body {
-            width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            font-family: 'Barlow', sans-serif;
-        }
-
-        img {
-            display: block;
-            margin: auto;
-            box-shadow: 2px 2px 2px 0px #7d7d7d96;
-        }
-
-        .post {
-            border: 1px solid lightgray;
-            padding: 10px 30px;
-            margin: 10px;
-        }
-
-        .post-info {
-            color: #4e4e4e;
-        }
-
-        .post-info > span {
-            margin-right: 1em;
-        }
-
-        .post-info .fa {
-            margin-right: 0.4em;
-            color: black;
-        }
-
-        .post-info .fa-heart {
-            color: red;
-        }
-
-        .comment-container {
-            margin: 5px;
-            padding: 5px;
-            border-bottom: 1px solid #80808099;        
-        }
-
-        .comment {
-            position: relative;
-            padding: 10px;
-        }
-
-        .comment-details {
-            text-align: right;
-        }
-
-        .comment-box {
-            width: 400px;
-            margin: auto;
-            margin-top: 15px;
-            margin-bottom: 50px;
-        }
-
-        .comment-box textarea {
-            width: 100%;
-        }
-
-        .comment-box input[type=button] {
-            display: block;
-            float: right;
-            margin-top: 10px;
-        }
-    </style>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <?php include_once 'scripts.php'; ?>
 <body>
+<?php include_once 'header.php'; ?>
 <h1>Post Details</h1>
 <?php
 $success = True;
