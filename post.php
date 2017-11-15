@@ -136,7 +136,7 @@ if ($db_conn) {
 
         echo "<div class='post-info'>";
         echo "<span class='likes'><a href='javascript:addLike();' title='Click to like!'><i class='fa fa-heart' aria-hidden='true'></i></a>" . "<span id='numlikes'>" . $row["LIKES"] . "</span></span>";
-        echo "<span class='author'><i class='fa fa-user' aria-hidden='true'></i>" . $row["USERNAME"] . "</span>";
+        echo "<span class='author'><a href='profile.php?name=" . $row["USERNAME"] . "'><i class='fa fa-user' aria-hidden='true'></i>" . $row["USERNAME"] . "</a></span>";
         echo "<span class='date'><i class='fa fa-calendar-o' aria-hidden='true'></i>" . $row["POSTDATE"] . "</span>";
         if (array_key_exists("URL", $row)) {
             echo "<span class='album'><i class='fa fa-book' aria-hidden='true'></i>" . $row["ALBUMNAME"] . "</span>";

@@ -96,6 +96,9 @@ values('Michael',TO_DATE('2019-10-23', 'YYYY-MM-DD'),NULL, 'www.ubc.ca');
 Insert into ProUser
 values('Katherina',TO_DATE('2018-2-25', 'YYYY-MM-DD'),'I am lalalalala', 'www.baidu.com');
 
+Insert into ProUser
+values('Dominic',TO_DATE('2018-5-25', 'YYYY-MM-DD'),'This is Dominic', 'www.youtube.com');
+
 Insert into Album
 values(0001,'UBC','Alvin');
 

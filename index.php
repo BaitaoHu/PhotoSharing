@@ -60,7 +60,9 @@ if ($db_conn) {
 
         echo "<div class='post-info'>";
         echo "<span class='likes'><i class='fa fa-heart' aria-hidden='true'></i>" . $row["LIKES"] . "</span>";
+        echo "<a href='profile.php?name=" . $row["USERNAME"] . "'>";
         echo "<span class='author'><i class='fa fa-user' aria-hidden='true'></i>" . $row["USERNAME"] . "</span>";
+        echo "</a>";
         echo "<span class='date'><i class='fa fa-calendar-o' aria-hidden='true'></i>" . $row["POSTDATE"] . "</span>";
         echo "</div></div>";
     }
