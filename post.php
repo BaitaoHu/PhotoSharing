@@ -115,7 +115,7 @@ if ($db_conn) {
 
     // Fetch post
     $postparams = array(":postid" => $postId);
-    $result = executeBoundSQL("SELECT Post.*, P.URL, P.description,
+    $result = executeBoundSQL("SELECT Post.*, P.URL, P.description, P.width, P.height,
         T.contents, A.name AS AlbumName, TO_CHAR(createdat, 'fmMonth DD, YYYY') AS PostDate
     FROM Post 
     LEFT JOIN Photo P ON  P.postId = Post.postId 
@@ -141,6 +141,7 @@ if ($db_conn) {
         if (array_key_exists("URL", $row)) {
             echo "<span class='album'><i class='fa fa-book' aria-hidden='true'></i>" . $row["ALBUMNAME"] . "</span>";
         }
+        echo "<span class='size'><i class='fa fa-picture-o' aria-hidden='true'></i>" . $row["WIDTH"] . "&#215;" . $row["HEIGHT"] . "</span>";
         echo "</div></div>";
     }
 
