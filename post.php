@@ -140,8 +140,8 @@ if ($db_conn) {
         echo "<span class='date'><i class='fa fa-calendar-o' aria-hidden='true'></i>" . $row["POSTDATE"] . "</span>";
         if (array_key_exists("URL", $row)) {
             echo "<span class='album'><i class='fa fa-book' aria-hidden='true'></i>" . $row["ALBUMNAME"] . "</span>";
+            echo "<span class='size'><i class='fa fa-picture-o' aria-hidden='true'></i>" . $row["WIDTH"] . "&#215;" . $row["HEIGHT"] . "</span>";
         }
-        echo "<span class='size'><i class='fa fa-picture-o' aria-hidden='true'></i>" . $row["WIDTH"] . "&#215;" . $row["HEIGHT"] . "</span>";
         echo "</div></div>";
     }
 
