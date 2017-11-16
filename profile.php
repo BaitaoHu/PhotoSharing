@@ -101,6 +101,58 @@ if ($db_conn) {
         echo "<p>" . $row["SIGNATURE"] . "</p>";     
 }
 
+echo "<p>Album &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Number of Likes</p>";     
+
+
+   $mostlikes_results= executeBoundSQL("SELECT A.name, SUM(Post.likes) AS sumlikes
+FROM ProUser U, Album A, Photo P, Post
+WHERE A.username = U.username AND P.albId = A.albId AND Post.postId = P.postId AND U.username = :username
+GROUP BY A.name
+ORDER BY sumlikes desc ",array($postparams));
+
+    while ($row = OCI_Fetch_Array($mostlikes_results, OCI_BOTH)) {
+   
+     echo "<p class='post-info'>".$row[NAME]."&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span class='likes'><i class=' fa fa-heart' aria-hidden='true' ></i>" . $row["SUMLIKES"] . "</span></p>";
+  
+}
+
+echo"<h3>".$userName."'s Post</h3>";
+
+ $userspost_results= executeBoundSQL("SELECT Post.*, P.URL, P.description,
+        T.contents, TO_CHAR(createdat, 'fmMonth DD, YYYY') AS PostDate
+    FROM Post 
+    LEFT JOIN Photo P ON  P.postId = Post.postId 
+    LEFT JOIN TextPost T ON T.postId = Post.postId
+    WHERE Post.username= :username
+    ORDER BY Post.createdAt desc",array($postparams));
+
+    while ($row = OCI_Fetch_Array($userspost_results, OCI_BOTH)) {
+   
+     echo "<div class='post'>";
+        if (array_key_exists("URL", $row)) {
+            // Photo Post
+            echo "<a href='post.php?id=" . $row["POSTID"] . "'>";
+            echo "<img src='" . $row["URL"] . "' width=600 height=600>";
+            echo "</a>";
+            echo "<p>" . $row["DESCRIPTION"] . "</p>";       
+        } else {
+            // Text Post
+            echo "<a href='post.php?id=" . $row["POSTID"] . "'>";
+            echo "<p>" . $row["CONTENTS"] . "</p>";
+            echo "</a>";            
+        }
+
+        echo "<div class='post-info'>";
+        echo "<span class='likes'><i class='fa fa-heart' aria-hidden='true'></i>" . $row["LIKES"] . "</span>";
+        
+        echo "<span class='author'><i class='fa fa-user' aria-hidden='true'></i>" . $row["USERNAME"] . "</span>";
+       
+        echo "<span class='date'><i class='fa fa-calendar-o' aria-hidden='true'></i>" . $row["POSTDATE"] . "</span>";
+        echo "</div></div>";
+    
+  
+}
+
     //Commit to save changes...
     OCILogoff($db_conn);
 } else {
