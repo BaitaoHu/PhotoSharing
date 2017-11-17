@@ -88,9 +88,9 @@ if ($db_conn) {
     }
 
      $postparams = array(":username" => $userName);
-    $result = executeBoundSQL("SELECT ProUser.*
-    FROM ProUser
-    WHERE ProUser.username = :username", array($postparams));
+    $result = executeBoundSQL("SELECT ProUser.*, N.birthday, N.email
+    FROM ProUser, NormalUser N
+    WHERE ProUser.username = :username and ProUser.username = N.username ", array($postparams));
 
     while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
 
@@ -98,7 +98,9 @@ if ($db_conn) {
         echo "<a href='https://".$row["PROFILEURL"]."'>";
         echo "<p>".$row["PROFILEURL"]."</p>";
         echo "</a>";
-        echo "<p>" . $row["SIGNATURE"] . "</p>";     
+        echo "<p>" . $row["SIGNATURE"] . "</p>";    
+        echo "<p>Birthday:" . $row["BIRTHDAY"] . "</p>";   
+        echo "<p>Email address:" . $row["EMAIL"] . "</p>";    
 }
 
 echo "<p>Album &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Number of Likes</p>";     
