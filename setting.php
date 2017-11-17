@@ -67,18 +67,19 @@ if ($db_conn) {
         
         $tuple = array (
          ":bind3" => $_POST['signature'],
-         ":bind4" => $_POST['profileURL'],
+         ":bind4" => $_POST['profileURL']
           
         );
 
         $alltuples = array (
             $tuple
         );
-       
+       if($_POST['signature']){
         executeBoundSQL("update ProUser set signature=:bind3 where username='".$_SESSION['username']."'", $alltuples);
-    
+}
+      if($_POST['profileURL']){
         executeBoundSQL("update ProUser set profileURL = :bind4 where username='".$_SESSION['username']."'", $alltuples);
-    
+    }
                 
         OCICommit($db_conn);
          echo "you have successfully changed your signature or profile URL!";
