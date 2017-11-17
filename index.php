@@ -5,36 +5,13 @@
     <title>Feed</title>
     <?php include_once 'scripts.php'; ?>
 </head>
-
+<?php include_once 'utils.php'; ?>
 <body>
     <?php include_once 'header.php'; ?>
+     
     <h1>Feed</h1>
-    <?php
-$success = True;
-$config = include('config.php');
-$db_conn = OCILogon($config["db_username"], $config["db_password"], "dbhost.ugrad.cs.ubc.ca:1522/ug"); // Change this!
-/**
- * Executes a plain SQL commands.
- * Adapted from the CPSC304 PHP tutorial.
- */
-function executePlainSQL($cmdstr) { 
-	global $db_conn, $success;
-	$statement = OCIParse($db_conn, $cmdstr);
-	if (!$statement) {
-		echo "<br>Cannot parse the following command: " . $cmdstr . "<br>";
-		$e = OCI_Error($db_conn);
-		echo htmlentities($e['message']);
-		$success = False;
-	}
-	$r = OCIExecute($statement, OCI_DEFAULT);
-	if (!$r) {
-		echo "<br>Cannot execute the following command: " . $cmdstr . "<br>";
-		$e = oci_error($statement); // For OCIExecute errors pass the statementhandle
-		echo htmlentities($e['message']);
-		$success = False;
-    }
-	return $statement;
-}
+    
+<?php
 if ($db_conn) {
     // Fetches all posts by all users
     $result = executePlainSQL("SELECT Post.*, P.URL, P.description,

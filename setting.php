@@ -12,6 +12,9 @@
 <body>
     <?php include_once 'header.php'; ?>
     <h1>Change Password</h1>
+
+<?php 
+echo "<h3>".$_SESSION['username']."</h3>";?>
 <div>
     <label>oldPassword</label>
     <input type="password" name="oldPassword" size = "20">
@@ -21,7 +24,7 @@
     <input type="password" name = "newPassword" size = "20">
 </div>
 <div>
-    <input type="submit" value="update111" name="updatePass"></p>
+    <input type="submit" value="update" name="updatePass"></p>
 </div>
     <?php if ( $_SESSION["ispro"] == true ) : ?> 
 <div>
@@ -36,39 +39,49 @@
     <input type="text" name="profileURL" size = "200">
 </div>
 <div>
-    <button type="update">submit</button>
+    <input type="submit" value="submit" name="submitURL"></p>
 </div>
 <?php endif; ?> 
        
 <?php
 if ($db_conn) { 
+  
     if (array_key_exists('updatePass', $_POST)) {
         $tuple = array (
         ":bind1" => $_POST["oldPassword"],
-        ":bind2" => $_POST["newPassword"],
-    //    ":username" => $_SESSION['username'],           
+        ":bind2" => $_POST["newPassword"]
+               
         );
         $alltuples = array (
             $tuple
         );
-        executeBoundSQL("update NormalUser set pass=:bind2 where pass=:bind1", $alltuples);
+        executeBoundSQL("update NormalUser set pass=:bind2 where pass=:bind1 and username='".$_SESSION['username']."'", $alltuples);
         OCICommit($db_conn);
         echo "you have successfully changed your password!";
     } 
-    if (array_key_exists('submit', $_POST,$_SESSION)) {
+
+   
+
+    if (array_key_exists('submitURL', $_POST)) {
         // Update tuple using data from user
+        
         $tuple = array (
          ":bind3" => $_POST['signature'],
          ":bind4" => $_POST['profileURL'],
-         ":username" => $_SESSION['username'],           
+          
         );
+
         $alltuples = array (
             $tuple
         );
-        executeBoundSQL("update ProUser set signature=:bind3 where username =:username ", $alltuples);
-        executeBoundSQL("update ProUser set profileURL = :bind4 where username = :username", $alltuples);
+       
+        executeBoundSQL("update ProUser set signature=:bind3 where username='".$_SESSION['username']."'", $alltuples);
+    
+        executeBoundSQL("update ProUser set profileURL = :bind4 where username='".$_SESSION['username']."'", $alltuples);
+    
                 
         OCICommit($db_conn);
+         echo "you have successfully changed your signature or profile URL!";
     }
 }
 

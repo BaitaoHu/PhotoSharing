@@ -81,7 +81,7 @@ function executeBoundSQL($cmdstr, $list) {
    
         //       if ($result.length == 1) {
                    $_SESSION["valid"] = true;
-                   $_SESSION["username"] = "katherina";
+                   $_SESSION["username"] = "Katherina";
                    $_SESSION["ispro"] = true;
         //         
         //           echo 'You have entered valid use name and password';
