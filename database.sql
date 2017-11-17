@@ -142,7 +142,7 @@ Insert into Post
 values(5786878,TO_DATE('2017-8-31 12:35:55', 'YYYY-MM-DD HH24:MI:SS'),'Alvin',1);
 
 Insert into Post
-values(234323,TO_DATE('2017-5-31 12:35:55', 'YYYY-MM-DD HH24:MI:SS'),'Alvin',1);
+values(234323,TO_DATE('2017-5-31 12:35:55', 'YYYY-MM-DD HH24:MI:SS'),'Katherina',1);
 
 Insert into Post
 values(34585656,TO_DATE('2017-8-31 12:35:55', 'YYYY-MM-DD HH24:MI:SS'),'Michael',5);
