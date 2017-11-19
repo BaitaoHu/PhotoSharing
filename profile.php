@@ -21,7 +21,9 @@ if ($db_conn) {
         return;
     }
 
-    // Get basic user info
+    // Get basic user info. Only ProUsers have profiles,
+    // so we can join the NormalUser table with the ProUser table
+    // to obtain all the data we need.
     $postparams = array(":username" => $userName);
     $result = executeBoundSQL("SELECT ProUser.*, N.birthday, N.email
     FROM ProUser, NormalUser N
@@ -37,7 +39,9 @@ if ($db_conn) {
         echo "<p>Email address:" . $row["EMAIL"] . "</p>";    
     }
 
-    // List all the user's albums and the sum of the number of likes within them
+    // List all the user's albums and the sum of the number of likes within them.
+    // We have to join the Post, Album, Photo and ProUser tables together to get all the data we need.
+    // We GROUP BY album then use the aggregate operation SUM to sum the number of likes in each album
     echo "<p>Album &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Number of Likes</p>";     
 
     $mostlikes_results= executeBoundSQL("SELECT A.name, SUM(Post.likes) AS sumlikes
@@ -54,6 +58,13 @@ ORDER BY sumlikes desc ",array($postparams));
     // List all the user's posts
     echo"<h3>".$userName."'s Post</h3>";
 
+    /* To obtain the entire contents of a Post, we have to join it to either Photo or TextPost 
+    so we know who created it and the number of likes (from Post), 
+    but also the textual or visual contents of that Post (from Photo or TextPost).
+    
+    A left join to Photo and TextPost is used because we don't know what type of Post it is,
+    but we want it's unique attributes. That means for a TextPost, Photo-specific attributes will be null,
+    and vice versa.*/
     $userspost_results = executeBoundSQL("SELECT Post.*, P.URL, P.description,
         T.contents, TO_CHAR(createdat, 'fmMonth DD, YYYY') AS PostDate
     FROM Post 

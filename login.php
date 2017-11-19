@@ -27,12 +27,13 @@ if ($db_conn) {
             ":pass" => $_POST["password"]
         );
 
+        /* Finds the username and membership expiry date of the user trying to log in.
+        In addition, if membershipExpiryDate isn't null, then the user is a ProUser. */
         $result = executeBoundSQL("SELECT U.username, P.membershipExpiryDate FROM NormalUser U LEFT JOIN ProUser P ON U.username = P.username WHERE U.username = :username AND U.pass = :pass", array($tuple));
         
         $row = OCI_Fetch_Array($result, OCI_BOTH);
         if ($row) {
             // User exists!
-            // In addition, if membershipExpiryDate isn't null, then the user is pro
             // Set these facts in cookies. They can obviously be changed, but it will do for this
             setcookie("username", $_POST["username"], time() + (86400 * 30), "/"); // 86400 = 1 day
             setcookie("ispro", array_key_exists("MEMBERSHIPEXPIRYDATE", $row), time() + (86400 * 30), "/");

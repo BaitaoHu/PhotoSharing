@@ -12,7 +12,13 @@
     <h1>Feed</h1>
 <?php
 if ($db_conn) {
-    // Fetches all posts by all users
+    /* To obtain the entire contents of a Post, we have to join it to either Photo or TextPost 
+    so we know who created it and the number of likes (from Post), 
+    but also the textual or visual contents of that Post (from Photo or TextPost).
+    
+    A left join to Photo and TextPost is used because we don't know what type of Post it is,
+    but we want it's unique attributes. That means for a TextPost, Photo-specific attributes will be null,
+    and vice versa.*/
     $result = executePlainSQL("SELECT Post.*, P.URL, P.description,
         T.contents, TO_CHAR(createdat, 'fmMonth DD, YYYY') AS PostDate
     FROM Post 

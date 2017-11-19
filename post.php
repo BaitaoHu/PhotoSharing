@@ -26,7 +26,9 @@ if ($db_conn) {
             $commentparams = array(
                 ":postId" => $_POST["postid"], 
                 ":response" => $comment,
-                ":username" => $_COOKIE['username']); 
+                ":username" => $_COOKIE['username']);
+
+            /** Insert a new comment at the current date, posted by the currently logged in user. */
             $add_comment_results = executeBoundSQL("INSERT INTO Response (postId, content, 
             datePosted, username)
             VALUES (:postId, :response, SYSDATE, :username)", array($commentparams));
@@ -36,6 +38,7 @@ if ($db_conn) {
         } else if ($type == 'add-like') {
             // Add like to a post
             $likeparams = array(":postId" => $_POST["postid"]);
+            /** Update like count on the Post by incrementing it. */
             executeBoundSQL("UPDATE Post
             SET LIKES = LIKES + 1
             WHERE postId = :postId", array($likeparams));
@@ -43,7 +46,7 @@ if ($db_conn) {
             OCICommit($db_conn);
             exit;
         } else if ($type == 'delete') {
-            // Delete post
+            // Delete post where the postID is equal to the post being viewed
             // Due to ON DELETE clauses, comments and such are also deleted automatically
             $deleteparams = array(":postId" => $_POST["postid"]);
             executeBoundSQL("DELETE FROM Post WHERE postId = :postId", array($deleteparams));
@@ -58,10 +61,10 @@ if ($db_conn) {
         return;
     }
 
-    // Fetch post
+    // Fetch post - the image/text, the date posted, the user, etc.
     // Since we don't know if it's a Photo or Text, we do a left join on both.
     // There will be some null fields as a result, but we will use these to tell us
-    // which type it is
+    // which type it is.
     $postparams = array(":postid" => $postId);
     $result = executeBoundSQL("SELECT Post.*, P.URL, P.description, P.width, P.height,
         T.contents, A.name AS AlbumName, TO_CHAR(createdat, 'fmMonth DD, YYYY') AS PostDate
@@ -100,6 +103,7 @@ if ($db_conn) {
     }
 
     // Fetch comments, their authors and the date posted
+    // We join the Response table and Post table to get the comments for this particular post
     $comment_results = executeBoundSQL("SELECT R.username, R.content,
     TO_CHAR(R.datePosted, 'fmMonth DD, YYYY') AS DatePosted 
     FROM Response R, Post P
