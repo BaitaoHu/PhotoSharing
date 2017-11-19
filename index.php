@@ -5,12 +5,11 @@
     <title>Feed</title>
     <?php include_once 'scripts.php'; ?>
 </head>
+
 <?php include_once 'utils.php'; ?>
 <body>
     <?php include_once 'header.php'; ?>
-     
     <h1>Feed</h1>
-    
 <?php
 if ($db_conn) {
     // Fetches all posts by all users

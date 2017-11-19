@@ -3,19 +3,16 @@
 
 <head>
     <title>Post Details</title>
+    <?php include_once 'scripts.php'; ?>
 </head>
-<?php include_once 'scripts.php'; ?>
- <?php include_once 'utils.php'; ?>
+
+<?php include_once 'utils.php'; ?> 
 <body>
     <?php include_once 'header.php'; ?>
-
     <h1>Post Details</h1>
-    
-
 <?php
 
 if ($db_conn) {
-
     if (isset($_POST['type'])) {
         $type = $_POST['type'];
 
@@ -37,6 +34,7 @@ if ($db_conn) {
             OCICommit($db_conn);
             exit;
         } else if ($type == 'add-like') {
+            // Add like to a post
             $likeparams = array(":postId" => $_POST["postid"]);
             executeBoundSQL("UPDATE Post
             SET LIKES = LIKES + 1
@@ -45,6 +43,8 @@ if ($db_conn) {
             OCICommit($db_conn);
             exit;
         } else if ($type == 'delete') {
+            // Delete post
+            // Due to ON DELETE clauses, comments and such are also deleted automatically
             $deleteparams = array(":postId" => $_POST["postid"]);
             executeBoundSQL("DELETE FROM Post WHERE postId = :postId", array($deleteparams));
             OCICommit($db_conn);
@@ -59,6 +59,9 @@ if ($db_conn) {
     }
 
     // Fetch post
+    // Since we don't know if it's a Photo or Text, we do a left join on both.
+    // There will be some null fields as a result, but we will use these to tell us
+    // which type it is
     $postparams = array(":postid" => $postId);
     $result = executeBoundSQL("SELECT Post.*, P.URL, P.description, P.width, P.height,
         T.contents, A.name AS AlbumName, TO_CHAR(createdat, 'fmMonth DD, YYYY') AS PostDate
@@ -79,6 +82,7 @@ if ($db_conn) {
             echo "<p>" . $row["CONTENTS"] . "</p>";            
         }
 
+        // Post info: likes, author, date posted, album, ...
         echo "<div class='post-info'>";
         echo "<span class='likes'><a href='javascript:addLike();' title='Click to like!'><i class='fa fa-heart' aria-hidden='true'></i></a>" . "<span id='numlikes'>" . $row["LIKES"] . "</span></span>";
         echo "<span class='author'><a href='profile.php?name=" . $row["USERNAME"] . "'><i class='fa fa-user' aria-hidden='true'></i>" . $row["USERNAME"] . "</a></span>";
@@ -95,7 +99,7 @@ if ($db_conn) {
         echo "</div></div>";
     }
 
-    // Fetch comments
+    // Fetch comments, their authors and the date posted
     $comment_results = executeBoundSQL("SELECT R.username, R.content,
     TO_CHAR(R.datePosted, 'fmMonth DD, YYYY') AS DatePosted 
     FROM Response R, Post P

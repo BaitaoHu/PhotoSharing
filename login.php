@@ -31,8 +31,9 @@ if ($db_conn) {
         
         $row = OCI_Fetch_Array($result, OCI_BOTH);
         if ($row) {
-            // User exists
+            // User exists!
             // In addition, if membershipExpiryDate isn't null, then the user is pro
+            // Set these facts in cookies. They can obviously be changed, but it will do for this
             setcookie("username", $_POST["username"], time() + (86400 * 30), "/"); // 86400 = 1 day
             setcookie("ispro", array_key_exists("MEMBERSHIPEXPIRYDATE", $row), time() + (86400 * 30), "/");
 

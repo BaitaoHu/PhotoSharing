@@ -1,7 +1,7 @@
 <?php
 $success = True;
 $config = include('config.php');
-$db_conn = OCILogon($config["db_username"], $config["db_password"], "dbhost.ugrad.cs.ubc.ca:1522/ug"); // Change this!
+$db_conn = OCILogon($config["db_username"], $config["db_password"], "dbhost.ugrad.cs.ubc.ca:1522/ug");
 
 /**
  * Executes a plain SQL commands.
@@ -31,6 +31,8 @@ function executePlainSQL($cmdstr) {
 
 /**
  * Executes a bound SQL command.
+ * 
+ * Adapted from the CPSC304 PHP tutorial.
  */
 function executeBoundSQL($cmdstr, $list) {
 	global $db_conn, $success;
