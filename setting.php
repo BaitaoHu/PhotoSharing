@@ -10,13 +10,17 @@
 
 <?php include_once 'utils.php'; ?>
 <body>
+    <?php if (!isset($_COOKIE["username"])) {
+        header("location: login.php");
+    }?>
+
     <?php include_once 'header.php'; ?>
     <h1>Change Password</h1>
 
 <?php 
 echo "<h3>".$_COOKIE['username']."</h3>";?>
 <div>
-    <label>New Password</label>
+    <label>New Password</label><br>
     <input type="password" name = "newPassword" size = "20">
 </div>
 <div>
@@ -24,12 +28,12 @@ echo "<h3>".$_COOKIE['username']."</h3>";?>
 </div>
     <?php if ( $_COOKIE["ispro"] == true ) : ?>
 <div>
-    <label>Signature</label>
+    <label>Signature</label><br>
     <input type="text" name="signature" size = "50" >
 </div>
 <div>
-    <label>Profile URL</label>
-    <input type="text" name="profileURL" size = "200">
+    <label>Profile URL</label><br>
+    <input type="text" name="profileURL" size = "50">
 </div>
 <div>
     <input type="submit" value="submit" name="submitURL"></p>
