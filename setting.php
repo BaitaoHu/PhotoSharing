@@ -16,10 +16,6 @@
 <?php 
 echo "<h3>".$_COOKIE['username']."</h3>";?>
 <div>
-    <label>Old Password</label>
-    <input type="password" name="oldPassword" size = "20">
-</div>
-<div>
     <label>New Password</label>
     <input type="password" name = "newPassword" size = "20">
 </div>
@@ -44,13 +40,13 @@ echo "<h3>".$_COOKIE['username']."</h3>";?>
 if ($db_conn) {
     if (array_key_exists('updatePass', $_POST)) {
         $tuple = array (
-            ":bind1" => $_POST["oldPassword"],
+            ":bind1" => $_COOKIE["username"],
             ":bind2" => $_POST["newPassword"]      
         );
         $alltuples = array (
             $tuple
         );
-        executeBoundSQL("update NormalUser set pass=:bind2 where pass=:bind1 and username='".$_COOKIE['username']."'", $alltuples);
+        executeBoundSQL("update NormalUser set pass=:bind2 where username=:bind1", $alltuples);
         OCICommit($db_conn);
         echo "you have successfully changed your password!";
     } 
