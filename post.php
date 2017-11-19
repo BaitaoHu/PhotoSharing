@@ -111,12 +111,18 @@ if ($db_conn) {
     ORDER BY R.datePosted ASC", array($postparams));
 
     echo "<h2>Comments</h2>";
+    $has_comments = false;
     while ($row = OCI_Fetch_Array($comment_results, OCI_BOTH)) {
+        $has_comments = true;
         echo "<div class='comment-container'><div class='comment'>";
         echo "<div class='comment-content'>" . $row["CONTENT"] . "</div>";
         echo "<div class='comment-details'> - " . $row["USERNAME"] . ", " . 
             $row["DATEPOSTED"] . "</div>";
         echo "</div></div>";
+    }
+
+    if (!$has_comments) {
+        echo "<span>No comments</span>";
     }
 
 	OCILogoff($db_conn);
@@ -128,11 +134,12 @@ if ($db_conn) {
 ?>
 
     <!-- For adding new comments -->
+    <?php if ($_COOKIE["username"]) : ?>
     <div class="comment-box">
         <textarea id="comment-contents" type="text" rows="5"></textarea>
         <input type="button" value="Add Comment" onclick="addComment();"></p>
     </div>
-
+    <?php endif ?>
     <script>
         function addLike() {
             $.ajax({
