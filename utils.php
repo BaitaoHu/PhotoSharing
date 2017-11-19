@@ -64,30 +64,3 @@ function executeBoundSQL($cmdstr, $list) {
     return $statement;
 }
 ?>
-
-
-<?php
-      session_start();
-	  
-   
-        $msg = '';
-           
-        //   if (isset($_POST['login']) && !empty($_POST['username'])
-         //      && !empty($_POST['password'])) {
-        //         $result = executeBoundSQL('select nu.username, NVL2(pu.username, \'true\', \'false\') as IsPro, pu.membershipExpiryDate, pu.signature, pu.profileURL
-        //         from NormalUser nu left join ProUser pu on nu.username = pu.username
-        //         where nu.username=:username and nu.pass=:password;', array([":username"=>$_POST['username'], ":password"=>$_POST['pass']]));
-        //         echo $result;
-   
-        //       if ($result.length == 1) {
-                   $_SESSION["valid"] = true;
-                   $_SESSION["username"] = "Katherina";
-                   $_SESSION["ispro"] = true;
-        //         
-        //           echo 'You have entered valid use name and password';
-        //       } else {
-        //           $msg = 'Wrong username or password';
-        //       }
-        //    } 
-          
-        ?>

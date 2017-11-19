@@ -14,7 +14,7 @@
     <h1>Change Password</h1>
 
 <?php 
-echo "<h3>".$_SESSION['username']."</h3>";?>
+echo "<h3>".$_COOKIE['username']."</h3>";?>
 <div>
     <label>oldPassword</label>
     <input type="password" name="oldPassword" size = "20">
@@ -26,7 +26,7 @@ echo "<h3>".$_SESSION['username']."</h3>";?>
 <div>
     <input type="submit" value="update" name="updatePass"></p>
 </div>
-    <?php if ( $_SESSION["ispro"] == true ) : ?> 
+    <?php if ( $_COOKIE["ispro"] == true ) : ?> 
 <div>
     <p> Please be aware that only prousers can update the following information</p>
 </div>
@@ -55,7 +55,7 @@ if ($db_conn) {
         $alltuples = array (
             $tuple
         );
-        executeBoundSQL("update NormalUser set pass=:bind2 where pass=:bind1 and username='".$_SESSION['username']."'", $alltuples);
+        executeBoundSQL("update NormalUser set pass=:bind2 where pass=:bind1 and username='".$_COOKIE['username']."'", $alltuples);
         OCICommit($db_conn);
         echo "you have successfully changed your password!";
     } 
@@ -75,10 +75,10 @@ if ($db_conn) {
             $tuple
         );
        if($_POST['signature']){
-        executeBoundSQL("update ProUser set signature=:bind3 where username='".$_SESSION['username']."'", $alltuples);
+        executeBoundSQL("update ProUser set signature=:bind3 where username='".$_COOKIE['username']."'", $alltuples);
 }
       if($_POST['profileURL']){
-        executeBoundSQL("update ProUser set profileURL = :bind4 where username='".$_SESSION['username']."'", $alltuples);
+        executeBoundSQL("update ProUser set profileURL = :bind4 where username='".$_COOKIE['username']."'", $alltuples);
     }
                 
         OCICommit($db_conn);

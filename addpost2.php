@@ -13,8 +13,9 @@
 
 <body>
     <?php include_once 'header.php'; ?>
-    
-    <?php if ( $_SESSION["ispro"] == true ) : ?> 
+    <?php if (!isset($_COOKIE["username"]) || !$_COOKIE["ispro"]) {
+        header("location: index.php");
+    } ?>
 
 <h1>Add post</h1>    
 
@@ -58,8 +59,6 @@
     <input type="submit" value="addPhotoPost" name="addPhoto"></p>
 </div>
 
-<?php endif; ?> 
-       
 <?php
 if ($db_conn) { 
   
@@ -67,7 +66,7 @@ if ($db_conn) {
         $tuple = array (
         ":bind1" => $_POST["contents"],
           ":postId1"=> mt_rand(100000,999999),
-          ":username" =>$_SESSION['username']    
+          ":username" =>$_COOKIE['username']    
         );
         $alltuples = array (
             $tuple
@@ -85,7 +84,7 @@ if ($db_conn) {
         
         $tuple = array (
         ":postId2" => mt_rand(100000,999999),
-        ":username2"=> $_SESSION['username'],
+        ":username2"=> $_COOKIE['username'],
         ":bind2" => $_POST["URL"],
         ":bind3" => $_POST["description"],
 

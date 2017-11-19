@@ -29,7 +29,7 @@ if ($db_conn) {
             $commentparams = array(
                 ":postId" => $_POST["postid"], 
                 ":response" => $comment,
-                ":username" => $_SESSION['username']); // TODO: Until we have login...
+                ":username" => $_COOKIE['username']); 
             $add_comment_results = executeBoundSQL("INSERT INTO Response (postId, content, 
             datePosted, username)
             VALUES (:postId, :response, SYSDATE, :username)", array($commentparams));
@@ -42,6 +42,11 @@ if ($db_conn) {
             SET LIKES = LIKES + 1
             WHERE postId = :postId", array($likeparams));
             echo $_POST["postid"];
+            OCICommit($db_conn);
+            exit;
+        } else if ($type == 'delete') {
+            $deleteparams = array(":postId" => $_POST["postid"]);
+            executeBoundSQL("DELETE FROM Post WHERE postId = :postId", array($deleteparams));
             OCICommit($db_conn);
             exit;
         }
@@ -82,6 +87,11 @@ if ($db_conn) {
             echo "<span class='album'><i class='fa fa-book' aria-hidden='true'></i>" . $row["ALBUMNAME"] . "</span>";
             echo "<span class='size'><i class='fa fa-picture-o' aria-hidden='true'></i>" . $row["WIDTH"] . "&#215;" . $row["HEIGHT"] . "</span>";
         }
+
+        if (isset($_COOKIE["username"]) && $_COOKIE["username"] == $row["USERNAME"]) {
+            echo "<span class='delete'><a href='javascript:deletePost();' title='Click to delete'><i class='fa fa-trash' aria-hidden='true'></i> Delete</a></span>";
+        }
+ 
         echo "</div></div>";
     }
 
@@ -144,6 +154,23 @@ if ($db_conn) {
                 }
             });
         }
+
+        function deletePost() {
+            if (confirm("Are you sure you want to delete the post?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "post.php",
+                    data: {
+                        type: 'delete',
+                        postid: <?php echo $_GET["id"]; ?>
+                    },
+                    success: function(data) {
+                        window.location.href = "index.php";
+                    }
+                });
+            }
+        }
+
     </script>
 </body>
 
