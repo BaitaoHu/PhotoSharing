@@ -13,15 +13,17 @@
 
 <body>
     <?php include_once 'header.php'; ?>
-    <?php if (!isset($_COOKIE["username"]) || !$_COOKIE["ispro"]) {
-        header("location: index.php");
-    } ?>
+    
+    <?php if ( $_SESSION["ispro"] == true ) : ?> 
 
 <h1>Add post</h1>    
 
 <div>
     <label>Input a TextPost below:</label>
-    <input type="text" name="contents" size = "500">
+    
+     <input type="text" name="contents">
+
+    
 </div>
 
 <div>
@@ -32,33 +34,35 @@
 
 <div>
     <label>Photo URL</label>
-    <input type="text" name="URL" size = "200">
+    <input type="text" name="URL">
 </div>
 
 <div>
     <label>Photo height</label>
-    <input type="text" name="height" size = "10">
+    <input type="text" name="height">
 </div>
 
 <div>
     <label>Photo width</label>
-    <input type="text" name="width" size = "10">
+    <input type="text" name="width">
 </div>
 
 <div>
-    <label>description</label>
-    <input type="text" name="description" size = "500" >
+    <label>Description</label>
+    <input type="text" name="description" >
 </div>
 
 <div>
-    <label>Photo album Id</label>
-    <input type="text" name="albId" size = "20">
+    <label>Album name</label>
+    <input type="text" name="albumname" >
 </div>
 
 <div>
     <input type="submit" value="addPhotoPost" name="addPhoto"></p>
 </div>
 
+<?php endif; ?> 
+       
 <?php
 if ($db_conn) { 
   
@@ -66,7 +70,7 @@ if ($db_conn) {
         $tuple = array (
         ":bind1" => $_POST["contents"],
           ":postId1"=> mt_rand(100000,999999),
-          ":username" =>$_COOKIE['username']    
+          ":username" =>$_SESSION['username']    
         );
         $alltuples = array (
             $tuple
@@ -84,25 +88,48 @@ if ($db_conn) {
         
         $tuple = array (
         ":postId2" => mt_rand(100000,999999),
-        ":username2"=> $_COOKIE['username'],
+        ":username2"=> $_SESSION['username'],
         ":bind2" => $_POST["URL"],
         ":bind3" => $_POST["description"],
-
         ":bind4" => $_POST["height"],
         ":bind5" => $_POST["width"],
-        ":bind6" => $_POST["albId"]
-               
-        );
+        ":bind6" => $_POST["albumname"],
+        ":bind7" => executePlainSQL("SELECT DISTINCT albId
+                                     FROM Album 
+                                     WHERE Album.username = :username2 AND Album.name = :bind6")
+                         );
+       
         $alltuples = array (
             $tuple
         );
 
-        
+       $result = executePlainSQL("SELECT DISTINCT albId
+                                     FROM Album 
+                                     WHERE Album.username = :username2 AND Album.name = :bind6");
+       
+    if(mysql_num_rows($result)>0){
         executeBoundSQL("insert into Post values ( :postId2, SYSDATE, :username2, 0)", $alltuples);
 
-        executeBoundSQL("insert into Photo values ( :postId2, :bind2, :bind3, :bind4, :bind5, :bind6)", $alltuples);
+
+
+        executeBoundSQL("insert into Photo values ( :postId2, :bind2, :bind3, :bind4, :bind5, :bind7)", $alltuples);
+        
         OCICommit($db_conn);
-         echo "you have successfull added a new photo post!";
+        echo "you have successfull added a new photo post!";
+           } else {
+
+         $albumId = mt_rand(100000,999999);
+        
+        executeBoundSQL("insert into Album values ( albumId, :bind6, :username2)", $alltuples);
+       
+        executeBoundSQL("insert into Post values ( :postId2, SYSDATE, :username2, 0)", $alltuples);
+
+        executeBoundSQL("insert into Photo values ( :postId2, :bind2, :bind3, :bind4, :bind5, :bind7)", $alltuples);
+        
+        OCICommit($db_conn);
+        echo "A new Album was created and your photo was added into it successfully!";
+
+           } 
     }
 }
 ?> 
