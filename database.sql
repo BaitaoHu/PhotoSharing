@@ -69,6 +69,11 @@ CREATE TABLE Response
      FOREIGN KEY (postId) REFERENCES Post(postId) ON DELETE CASCADE,
      FOREIGN KEY (username) REFERENCES NormalUser(username) ON DELETE CASCADE);
 
+CREATE VIEW ProUserProfile AS
+  SELECT P.username, P.signature, P.profileURL,N.birthday, N.email
+  FROM ProUser P, NormalUser N
+  WHERE P.username = N.username;
+
 Insert into NormalUser
 values('Alvin','123456789','AlvinHu@gmail.com', TO_DATE('1996-10-18', 'YYYY-MM-DD'), TO_DATE('2017-10-11', 'YYYY-MM-DD'));
 

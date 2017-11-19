@@ -20,18 +20,13 @@ if ($db_conn) {
         echo "<h1>Unknown username</h1>";
         return;
     }
-   executePlainSQL("CREATE VIEW ProUserProfile2 AS
-SELECT P.username, P.signature, P.profileURL,N.birthday, N.email
-FROM ProUser P, NormalUser N
-WHERE P.username = N.username
-");
 
     // Get basic user info. Only ProUsers have profiles.
     // We have a VIEW for this to make it easier.
     $postparams = array(":username" => $userName);
-    $result = executeBoundSQL("SELECT ProUserProfile2.*
-    FROM ProUserProfile2
-    WHERE ProUserProfile2.username = :username ", array($postparams));
+    $result = executeBoundSQL("SELECT ProUserProfile.*
+    FROM ProUserProfile
+    WHERE ProUserProfile.username = :username ", array($postparams));
 
   
   while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
