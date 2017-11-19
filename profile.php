@@ -20,26 +20,20 @@ if ($db_conn) {
         echo "<h1>Unknown username</h1>";
         return;
     }
-   executePlainSQL("CREATE VIEW ProUserProfile AS
+   executePlainSQL("CREATE VIEW ProUserProfile2 AS
 SELECT P.username, P.signature, P.profileURL,N.birthday, N.email
 FROM ProUser P, NormalUser N
 WHERE P.username = N.username
 ");
 
-<<<<<<< HEAD
-     $postparams = array(":username" => $userName);
-    $result = executeBoundSQL("SELECT ProUserProfile.*
-    FROM ProUserProfile
-    WHERE ProUserProfile.username = :username ", array($postparams));
-=======
-    // Get basic user info
-    $postparams = array(":username" => $userName);
-    $result = executeBoundSQL("SELECT ProUser.*, N.birthday, N.email
-    FROM ProUser, NormalUser N
-    WHERE ProUser.username = :username and ProUser.username = N.username ", array($postparams));
->>>>>>> 28e79368d1173d282db435367a20d9726a376d00
 
-    while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
+     $postparams = array(":username" => $userName);
+    $result = executeBoundSQL("SELECT ProUserProfile2.*
+    FROM ProUserProfile2
+    WHERE ProUserProfile2.username = :username ", array($postparams));
+
+  
+  while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
         echo "<h1>".$row["USERNAME"]."</h1>";
         echo "<a href='https://".$row["PROFILEURL"]."'>";
         echo "<p>".$row["PROFILEURL"]."</p>";
